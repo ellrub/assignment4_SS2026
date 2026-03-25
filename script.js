@@ -3,50 +3,50 @@ Mapping from MealDB Categories to TheCocktailDB drink ingredient
 You can customize or expand this object to suit your needs.
 */
 const mealCategoryToCocktailIngredient = {
-  Beef: "whiskey",
-  Chicken: "gin",
-  Dessert: "amaretto",
-  Lamb: "vodka",
-  Miscellaneous: "vodka",
-  Pasta: "tequila",
-  Pork: "tequila",
-  Seafood: "rum",
-  Side: "brandy",
-  Starter: "rum",
-  Vegetarian: "gin",
-  Breakfast: "vodka",
-  Goat: "whiskey",
-  Vegan: "rum",
-  // Add more if needed; otherwise default to something like 'cola'
+    Beef: "whiskey",
+    Chicken: "gin",
+    Dessert: "amaretto",
+    Lamb: "vodka",
+    Miscellaneous: "vodka",
+    Pasta: "tequila",
+    Pork: "tequila",
+    Seafood: "rum",
+    Side: "brandy",
+    Starter: "rum",
+    Vegetarian: "gin",
+    Breakfast: "vodka",
+    Goat: "whiskey",
+    Vegan: "rum",
+    // Add more if needed; otherwise default to something like 'cola'
 };
 
 /*
     2) Main Initialization Function
-       Called on page load to start all the requests:
-       - Fetch random meal
-       - Display meal
-       - Map meal category to spirit
-       - Fetch matching (or random) cocktail
-       - Display cocktail
+        Called on page load to start all the requests:
+        - Fetch random meal
+        - Display meal
+        - Map meal category to spirit
+        - Fetch matching (or random) cocktail
+        - Display cocktail
 */
 function init() {
-  fetchRandomMeal()
-    .then((meal) => {
-      displayMealData(meal);
-      const spirit = mapMealCategoryToDrinkIngredient(meal.strCategory);
-      return fetchCocktailByDrinkIngredient(spirit);
-    })
-    .then((cocktail) => {
-      displayCocktailData(cocktail);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+    fetchRandomMeal()
+        .then((meal) => {
+            displayMealData(meal);
+            const spirit = mapMealCategoryToDrinkIngredient(meal.strCategory);
+            return fetchCocktailByDrinkIngredient(spirit);
+        })
+        .then((cocktail) => {
+            displayCocktailData(cocktail);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
 }
 
 /*
- Fetch a Random Meal from TheMealDB
- Returns a Promise that resolves with the meal object
+    Fetch a Random Meal from TheMealDB
+    Returns a Promise that resolves with the meal object
  */
 function fetchRandomMeal() {
     // Fill in
@@ -55,8 +55,8 @@ function fetchRandomMeal() {
 /*
 Display Meal Data in the DOM
 Receives a meal object with fields like:
-  strMeal, strMealThumb, strCategory, strInstructions,
-  strIngredientX, strMeasureX, etc.
+    strMeal, strMealThumb, strCategory, strInstructions,
+    strIngredientX, strMeasureX, etc.
 */
 function displayMealData(meal) {
     // Fill in
@@ -67,8 +67,8 @@ Convert MealDB Category to a TheCocktailDB Spirit
 Looks up category in our map, or defaults to 'cola'
 */
 function mapMealCategoryToDrinkIngredient(category) {
-  if (!category) return "cola";
-  return mealCategoryToCocktailIngredient[category] || "cola";
+    if (!category) return "cola";
+    return mealCategoryToCocktailIngredient[category] || "cola";
 }
 
 /*

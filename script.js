@@ -50,6 +50,10 @@ function init() {
  */
 function fetchRandomMeal() {
     // Fill in
+    const randomMealAPI = `https://www.themealdb.com/api/json/v1/1/random.php`
+    return fetch(randomMealAPI)
+        .then((response) => response.json())
+        .then((data) => data.meals[0])
 }
 
 /*
@@ -60,6 +64,41 @@ Receives a meal object with fields like:
 */
 function displayMealData(meal) {
     // Fill in
+    const mealContainer = document.getElementById("meal-container")
+    const ingredientsArray = []
+    const measureArray = []
+    const instructionsArray = meal.strInstructions.split(/\r?\n+/)
+
+    for (let i = 1; i <= 20; i++) {
+        const ingredient = meal["strIngredient" + i]
+        const measure = meal["strMeasure" + i]
+
+        if (ingredient && ingredient.trim() !== "") {
+            ingredientsArray.push(ingredient.trim())
+            measureArray.push(measure.trim())
+        }
+    }
+    mealContainer.innerHTML = `
+        <div class="container">
+            <img src="${meal.strMealThumb}">
+            <div>
+                <h2>${meal.strMeal}</h2>
+                <p>${meal.strCategory}</p>
+                <div class="container__list">
+                    <ul>
+                        ${ingredientsArray.map(item => `<li>${item}</li>`).join("")}
+                    </ul>
+                    <ul class="list__measure">
+                        ${measureArray.map(item => `<li>${item}</li>`).join("")}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <ol>
+            ${instructionsArray.map(item => `<li>${item}</li>`).join("")}
+        </ol>
+
+    `
 }
 
 /*
@@ -80,6 +119,15 @@ If no cocktails found, fetch random
 */
 function fetchCocktailByDrinkIngredient(drinkIngredient) {
     // Fill in
+    const cocktailAPI = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(drinkIngredient)}`
+    return fetch(cocktailAPI)
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.drinks && data.drinks.length > 0) {
+                return data.drinks[0]
+            }
+            return fetchRandomCocktail()
+        })
 }
 
 /*
@@ -88,6 +136,10 @@ Returns a Promise that resolves to cocktail object
 */
 function fetchRandomCocktail() {
     // Fill in
+    const randomCocktailAPI = `https://www.thecocktaildb.com/api/json/v1/1/random.php`
+    return fetch(randomCocktailAPI)
+        .then((response) => response.json())
+        .then((data) => data.drinks[0])
 }
 
 /*
@@ -95,6 +147,42 @@ Display Cocktail Data in the DOM
 */
 function displayCocktailData(cocktail) {
     // Fill in
+    const cocktailContainer = document.getElementById("cocktail-container")
+    const ingredientsArray = []
+    const measureArray = []
+    const instructionsArray = cocktail.strInstructions.split(/\r?\n+/)
+
+    for (let i = 1; i <= 15; i++) {
+        const ingredient = cocktail["strIngredient" + i]
+        const measure = cocktail["strMeasure" + i]
+
+        if (ingredient !== null) {
+            ingredientsArray.push(ingredient)
+        }
+        if (measure !== null) {
+            measureArray.push(measure)
+        }
+    }
+    cocktailContainer.innerHTML = `
+        <div class="container">
+            <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
+            <div>
+                <h2>${cocktail.strDrink}</h2>
+                <p>${cocktail.strCategory}</p>
+                <div class="container__list">
+                    <ul>
+                        ${ingredientsArray.map(item => `<li>${item}</li>`).join("")}
+                    </ul>
+                    <ul class="list__measure">
+                        ${measureArray.map(item => `<li>${item}</li>`).join("")}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <ol>
+            ${instructionsArray.map(item => `<li>${item}</li>`).join("")}
+        </ol>
+    `
 }
 
 /*
